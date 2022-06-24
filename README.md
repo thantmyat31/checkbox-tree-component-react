@@ -3,6 +3,7 @@
 * [x] Nested components tree with checkboxes.
 * [x] Checked and unchecked function when checked on single checkbox
 * [x] Checked and unchecked function for multiple checkboxes along with the tree view when click on parent checkbox.
+* [x] Expanded and unexpanded function when clicked on more(plus) and less(minus) icon.
 
 
 # Run the test project in local environment
@@ -31,4 +32,4 @@ npm start
 - react-dom : 18.2.0
 
 # Version
-1.0.1
+1.0.2
