@@ -1,3 +1,7 @@
+.checkbox {
+    display:block;
+    position: relative;
+}
 .container {
     margin-bottom:10px;
     display:flex;
@@ -5,6 +9,38 @@
     align-items:center;
 }
 
-.child {
+.checkbox > .child {
     margin-left:40px;
+    display:none;
+}
+
+.checkbox.open > .child {
+    display:block;
+}
+
+.container .dropdownIcon {
+    display:flex;
+    flex-direction:row;
+    align-items:center;
+    justify-content:center;
+    width:20px;
+    height:20px;
+    line-height:20px;
+    background-color:var(--primary-color);
+    color:#fff;
+    border-radius:50%;
+    position: relative;
+    cursor:pointer;
+}
+
+.checkbox > .container > .dropdownIcon::after {
+    content: '\002B';
+    display: block;
+    font-size: 13px;
+}
+
+.checkbox.open > .container > .dropdownIcon::after {
+    content: '\002D';
+    display:block;
+    font-size:13px;
 }

@@ -2,7 +2,7 @@ import React from 'react';
 import CheckboxTree from './CheckboxTree';
 import styles from './Checkbox.module.css';
 
-export default function Checkbox({ checked, node, onChange, ...rest }) {
+export default function Checkbox({ checked, node, onChecked, expanded, onExpanded, ...rest }) {
     // CHECK IF NODE HAS CHILDREN 
     const checkHasChild = (node) => {
         if(node.children) {
@@ -31,10 +31,10 @@ export default function Checkbox({ checked, node, onChange, ...rest }) {
     }
 
     const singleCheckedToggle = (value, checked) => {
-        if(checked.indexOf(value) === -1) onChange([...checked, value]);
+        if(checked.indexOf(value) === -1) onChecked([...checked, value]);
         else {
             checked.splice(checked.indexOf(value), 1);
-            onChange([...checked]);
+            onChecked([...checked]);
         }
     }
 
@@ -62,12 +62,12 @@ export default function Checkbox({ checked, node, onChange, ...rest }) {
                         newArray.push(item);
                     }
                 });
-                onChange([...newArray]);
+                onChecked([...newArray]);
             } else {
                 for(var i = 0; i < array.length; i++) {
                     checked.splice(checked.indexOf(array[i]), 1);
                 }
-                onChange([...checked]);
+                onChecked([...checked]);
             }
         } else {
             singleCheckedToggle(value, checked);
@@ -101,14 +101,42 @@ export default function Checkbox({ checked, node, onChange, ...rest }) {
         } 
     }
 
+    const handleOnExpand = (value, expanded) => {
+        if(expanded.indexOf(value) === -1) {
+            onExpanded([...expanded, value]);
+        } else {
+            expanded.splice(expanded.indexOf(value), 1);
+            onExpanded([...expanded]);
+        }
+    }
+
+    const isExpanded = (value, expanded) => {
+        if(expanded.indexOf(value) !== -1) {
+            console.log({expanded});
+            return true;
+        }
+        else return false;
+    }
+
     return (
-        <>
+        <div className={`${styles.checkbox}  ${isExpanded(node.value, expanded) ? styles.open : ''}`}>
             <div className={styles.container}>
-                {checkHasChild(node) && <span>+</span>}
+                {checkHasChild(node) && (
+                    <span className={styles.dropdownIcon} onClick={() => handleOnExpand(node.value, expanded)}></span>
+                )}
                 <input type="checkbox" value={node.value} checked={isChecked(node, checked)} onChange={() => handleOnChange(node, checked)} />
-                {node.label}
+                <label>{node.label}</label>
             </div>
-            {checkHasChild(node) && <CheckboxTree className={styles.child} nodes={node.children} checked={checked} onChecked={onChange} {...rest}  />}
-        </>
+            {checkHasChild(node) && isExpanded(node.value, expanded) ? (
+                <CheckboxTree 
+                    className={styles.child} 
+                    nodes={node.children} 
+                    checked={checked} 
+                    onChecked={onChecked}
+                    expanded={expanded}
+                    onExpanded={onExpanded} 
+                    {...rest}  />
+            ) : null}
+        </div>
     )
 }
