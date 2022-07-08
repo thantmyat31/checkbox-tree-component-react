@@ -31,5 +31,8 @@ npm start
 - react : 18.2.0
 - react-dom : 18.2.0
 
+# Deployment
+- Deployed on netlify as sample. Visit [here](https://checkbox-tree.netlify.app/).
+
 # Version
 1.0.2
